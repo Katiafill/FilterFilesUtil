@@ -11,8 +11,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 
-import static org.junit.jupiter.api.Assertions.*;
-
 class FileWriterServiceTest {
 
     private UtilParameters parameters;
@@ -37,34 +35,34 @@ class FileWriterServiceTest {
 
     @Test
     void writeIntegers() {
-        FileWriterService service = new FileWriterService(parameters);
+        FileWriterServiceImpl service = new FileWriterServiceImpl(parameters);
         service.writeLine("1", ContentType.INT);
         service.writeLine("10", ContentType.INT);
-        service.closeAll();
+        service.close();
     }
 
     @Test
     void writeFloats() {
-        FileWriterService service = new FileWriterService(parameters);
+        FileWriterServiceImpl service = new FileWriterServiceImpl(parameters);
         service.writeLine("1.5", ContentType.FLOAT);
         service.writeLine("-34.7", ContentType.FLOAT);
-        service.closeAll();
+        service.close();
     }
 
     @Test
     void writeStrings() {
-        FileWriterService service = new FileWriterService(parameters);
+        FileWriterServiceImpl service = new FileWriterServiceImpl(parameters);
         service.writeLine("Sample", ContentType.STRING);
         service.writeLine("Hello, world!", ContentType.STRING);
-        service.closeAll();
+        service.close();
     }
 
     @Test
     void writeAll() {
-        FileWriterService service = new FileWriterService(parameters);
+        FileWriterServiceImpl service = new FileWriterServiceImpl(parameters);
         service.writeLine("19", ContentType.INT);
         service.writeLine("-34.7", ContentType.FLOAT);
         service.writeLine("Hello world!", ContentType.STRING);
-        service.closeAll();
+        service.close();
     }
 }

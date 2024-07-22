@@ -20,10 +20,10 @@ class FileReaderServiceTest {
         createFile(filename, lines);
 
         List<String> result = new ArrayList<>();
-        FileReaderService service = new FileReaderService(List.of(filename));
+        FileReaderServiceImpl service = new FileReaderServiceImpl(List.of(filename));
         service.readFiles(result::add);
 
-        service.closeAll();
+        service.close();
         deleteFile(filename);
 
         assertEquals(result, lines);
@@ -47,11 +47,11 @@ class FileReaderServiceTest {
         );
 
         List<String> result = new ArrayList<>();
-        FileReaderService service = new FileReaderService(
+        FileReaderServiceImpl service = new FileReaderServiceImpl(
                 List.of(filename1, filename2));
         service.readFiles(result::add);
 
-        service.closeAll();
+        service.close();
         deleteFile(filename1);
         deleteFile(filename2);
 
