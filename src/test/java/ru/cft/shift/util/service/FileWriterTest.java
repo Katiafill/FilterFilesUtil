@@ -45,6 +45,13 @@ class FileWriterTest {
         checkResult(lines);
     }
 
+    @Test
+    void writeLine_appendToEmptyFile() throws IOException {
+        List<String> lines = List.of("Hello world!", "Append line to file.");
+        writeLines(lines, true);
+        checkResult(lines);
+    }
+
     private void writeLines(List<String> lines, boolean isAppend) throws IOException {
         FileWriter writer = new FileWriter(filename, isAppend);
         lines.forEach(writer::writeLine);

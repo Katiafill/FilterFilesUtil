@@ -5,6 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 @Slf4j
 class FileWriter {
@@ -21,7 +23,7 @@ class FileWriter {
         this.filename = filename;
         writer = getFileWriter(filename, isAppend);
         // Если в файл дописываем, то сразу нужно добавить перевод на новую строку.
-        addNewLine = isAppend;
+        addNewLine = isAppend && isNotEmptyFile(filename);
     }
 
     void writeLine(String line) {
@@ -58,6 +60,10 @@ class FileWriter {
 
     private static BufferedWriter getFileWriter(String filename, boolean isAppend) throws IOException {
         return new BufferedWriter(new java.io.FileWriter(filename, isAppend));
+    }
+
+    private static boolean isNotEmptyFile(String filename) throws IOException {
+        return Files.size(Path.of(filename)) > 0;
     }
 
 }
