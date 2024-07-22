@@ -12,5 +12,5 @@
         <appender-ref ref="console" />
     </root>
 
-    <logger name="ru.cft.shift.util" level="DEBUG"/>
+    <logger name="ru.cft.shift.util" level="OFF"/>
 </configuration>
