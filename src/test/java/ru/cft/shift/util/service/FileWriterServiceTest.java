@@ -13,20 +13,20 @@ import java.util.Comparator;
 
 class FileWriterServiceTest {
 
-    private UtilParameters parameters;
+    private FileWriterServiceParameters parameters;
 
     @BeforeEach
     void setUp() {
-        parameters = UtilParameters.builder()
-                .path("./out")
-                .prefix("sample_")
-                .isAppendFile(false)
-                .build();
+        parameters = new FileWriterServiceParameters(
+                "./out",
+                "sample_",
+                false
+        );
     }
 
     @AfterEach
     void tearDown() throws IOException {
-        Files.walk(Path.of(parameters.getPath()))
+        Files.walk(Path.of(parameters.path()))
                 .sorted(Comparator.reverseOrder())
                 .map(Path::toFile)
                 .forEach(File::delete);
