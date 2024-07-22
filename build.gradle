@@ -3,14 +3,27 @@ plugins {
 }
 
 group = 'ru.cft.shift.util'
-version = '1.0-SNAPSHOT'
+version = '1.0'
+
+jar {
+    archiveBaseName = 'util'
+    manifest {
+        attributes(
+                "Main-Class": "ru.cft.shift.util.Main"
+        )
+    }
+
+    from {
+        duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+    }
+}
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation 'org.slf4j:slf4j-simple:1.7.26'
     compileOnly 'org.projectlombok:lombok:1.18.34'
     annotationProcessor 'org.projectlombok:lombok:1.18.34'
 
