@@ -53,6 +53,12 @@ class FileLineHandlerTest {
     }
 
     @Test
+    void parseFloat_withE() {
+        ContentType type = handler.parse("1.528535047E-25");
+        assertEquals(type, ContentType.FLOAT);
+    }
+
+    @Test
     void parseFloat_typeCharacter() {
         ContentType type = handler.parse(" 234.5f ");
         assertEquals(type, ContentType.FLOAT);
