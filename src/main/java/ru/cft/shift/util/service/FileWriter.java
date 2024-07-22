@@ -2,6 +2,7 @@ package ru.cft.shift.util.service;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import ru.cft.shift.util.info.InfoService;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -42,6 +43,7 @@ class FileWriter {
             // Решено, что при ошибке записи в файл, файл закрывается.
             // И больше в него ничего не пытаемся писать.
             close();
+            InfoService.getInstance().error("Failed write text in file " + filename + ".", ex);
         }
     }
 

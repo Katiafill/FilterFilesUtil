@@ -1,6 +1,7 @@
 package ru.cft.shift.util.service;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.cft.shift.util.info.InfoService;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -11,6 +12,10 @@ import java.util.Map;
 record FileWriterServiceParameters(String path, String prefix, boolean isAppendFile){}
 
 @Slf4j
+/* Сервис записи отфильтрованных данных по файлам.
+* Запись осуществляется построчно.
+* Каждый тип данных записывается в соответствующий файл.
+* */
 class FileWriterServiceImpl implements FileWriterService {
     private final Map<ContentType, FileWriter> writers;
     private final FileWriterServiceParameters parameters;
@@ -38,6 +43,7 @@ class FileWriterServiceImpl implements FileWriterService {
 
         if (writer == null) {
             writer = createFileWriter(type);
+            writers.put(type, writer);
         }
 
         return writer;
@@ -46,11 +52,10 @@ class FileWriterServiceImpl implements FileWriterService {
     private FileWriter createFileWriter(ContentType type) {
         try {
             String filename = getFilenameForType(type);
-            FileWriter writer = new FileWriter(filename, parameters.isAppendFile());
-            writers.put(type, writer);
-            return writer;
+            return new FileWriter(filename, parameters.isAppendFile());
         } catch (IOException ex) {
             log.error("Exception occurred while opening file {}", type.getFilename(), ex);
+            InfoService.getInstance().error("Failed create/open " + type.getFilename() + ".", ex);
             return null;
         }
     }

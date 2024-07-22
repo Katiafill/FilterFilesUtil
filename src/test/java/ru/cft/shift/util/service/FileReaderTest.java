@@ -1,8 +1,6 @@
 package ru.cft.shift.util.service;
 
-import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -15,13 +13,13 @@ import static org.junit.jupiter.api.Assertions.*;
 class FileReaderTest {
     private final static String filename = "sample.txt";
 
-    @BeforeAll
-    static void setUp() throws IOException {
+    @BeforeEach
+    void setUp() throws IOException {
         Files.createFile(Path.of(filename));
     }
 
-    @AfterAll
-    static void tearDown() throws IOException {
+    @AfterEach
+    void tearDown() throws IOException {
         Files.deleteIfExists(Path.of(filename));
     }
 

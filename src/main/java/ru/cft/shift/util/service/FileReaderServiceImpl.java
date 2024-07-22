@@ -1,13 +1,19 @@
 package ru.cft.shift.util.service;
 
 import lombok.extern.slf4j.Slf4j;
+import ru.cft.shift.util.info.InfoService;
 
 import java.io.IOException;
+import java.nio.file.NoSuchFileException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 
 @Slf4j
+/* Сервис чтения файлов.
+* Файлы читаются последовательно по одной строке
+* в порядке, переданном на вход.
+*/
 class FileReaderServiceImpl implements FileReaderService {
     private final List<FileReader> readers;
 
@@ -38,9 +44,11 @@ class FileReaderServiceImpl implements FileReaderService {
         List<FileReader> readers = new ArrayList<>(filenames.size());
         for (String filename : filenames) {
             try {
-                readers.add(new FileReader(filename));
+                FileReader reader = new FileReader(filename);
+                readers.add(reader);
             } catch (IOException ex) {
-                log.error("Failed open file {}. It would be skipped.", filename, ex);
+                log.error("Exception occurred while opening file {}", filename, ex);
+                InfoService.getInstance().error("Failed open file " + filename + ". It would be skipped.");
             }
         }
 
