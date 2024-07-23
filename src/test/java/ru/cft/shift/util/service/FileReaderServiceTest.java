@@ -1,6 +1,5 @@
 package ru.cft.shift.util.service;
 
-import lombok.SneakyThrows;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
@@ -63,8 +62,7 @@ class FileReaderServiceTest {
         Files.write(path, content);
     }
 
-    @SneakyThrows
-    private void deleteFile(String file) {
+    private void deleteFile(String file) throws IOException {
         Files.delete(Path.of(file));
     }
 }

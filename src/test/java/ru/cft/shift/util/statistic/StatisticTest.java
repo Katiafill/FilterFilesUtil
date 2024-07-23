@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.cft.shift.util.statistic.StatisticHelper.*;
 
 @Slf4j
 class StatisticTest {
@@ -42,8 +43,8 @@ class StatisticTest {
         assertEquals(statistic.getShortStatistic().getCount(), list.size());
         assertEquals(statistic.getMinLength(), 1);
         assertEquals(statistic.getMaxLength(), 5);
-
-        log.info(statistic.getStatistic());
+        assertEquals(statistic.getStatistic(),
+                createFullStringStatistic(list.size(), 1, 5));
     }
 
     @Test
@@ -58,9 +59,11 @@ class StatisticTest {
         assertEquals(statistic.getMax(), 7967);
         long sum = list.stream().mapToInt(Integer::intValue).sum();
         assertEquals(statistic.getSum(), sum);
-        assertEquals(statistic.getAvg(), sum / list.size());
+        long avg = sum / list.size();
+        assertEquals(statistic.getAvg(), avg);
 
-        log.info(statistic.getStatistic());
+        assertEquals(statistic.getStatistic(),
+                createFullIntegerStatistic(list.size(), -300, 7967, sum, avg));
     }
 
     @Test
@@ -75,41 +78,59 @@ class StatisticTest {
         assertEquals(statistic.getMax(), 7967.0f);
         double sum = list.stream().mapToDouble(Float::doubleValue).sum();
         assertEquals(statistic.getSum(), sum);
-        assertEquals(statistic.getAvg(), sum / list.size());
+        double avg = sum / list.size();
+        assertEquals(statistic.getAvg(), avg);
 
-        log.info(statistic.getStatistic());
+        assertEquals(statistic.getStatistic(),
+                createFullFloatStatistic(list.size(), -300.3f, 7967.0f, sum, avg));
     }
 
     @Test
     void shortStatisticManager() {
         StatisticManager manager = StatisticManager.create(false);
 
-        manager.add("1");
+        manager.add("sample");
         manager.add(1);
         manager.add(1.0f);
         manager.add(false);
 
-        log.info(manager.getStatistic());
+        assertEquals(manager.getStatistic(),
+                createStatistic(
+                        createShortStatistic(1),
+                        createShortStatistic(1),
+                        createShortStatistic(1)
+                ));
     }
 
     @Test
     void fullStatisticManager() {
         StatisticManager manager = StatisticManager.create(true);
 
-        manager.add("1");
+        manager.add("sample");
         manager.add(1);
         manager.add(1.0f);
 
-        log.info(manager.getStatistic());
+        assertEquals(manager.getStatistic(),
+                createStatistic(
+                        createFullStringStatistic(1, 6,6),
+                        createFullIntegerStatistic(1, 1, 1, 1, 1),
+                        createFullFloatStatistic(1, 1.0f, 1.0f, 1.0f, 1.0f)
+                ));
     }
 
     @Test
     void emptyIntegerStatistic() {
         StatisticManager manager = StatisticManager.create(true);
 
-        manager.add("1");
+        manager.add("sample");
         manager.add(1.0f);
 
-        log.info(manager.getStatistic());
+        assertEquals(manager.getStatistic(),
+                createStatistic(
+                        createFullStringStatistic(1, 6,6),
+                        createShortStatistic(0),
+                        createFullFloatStatistic(1, 1.0f, 1.0f, 1.0f, 1.0f)
+                ));
     }
+
 }

@@ -5,6 +5,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static ru.cft.shift.util.statistic.StatisticHelper.*;
 
 @Slf4j
 class FileLineHandlerTest {
@@ -89,7 +90,12 @@ class FileLineHandlerTest {
         handler.parse("1.0");
         handler.parse("sample");
 
-        log.info(handler.getManager().getStatistic());
+        assertEquals(handler.getManager().getStatistic(),
+                createStatistic(
+                        createShortStatistic(1),
+                        createShortStatistic(1),
+                        createShortStatistic(1)
+                ));
     }
 
 }
